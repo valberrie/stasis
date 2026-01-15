@@ -24,6 +24,8 @@ $Group "game"
 	"server"
 	"tier1"
 	"vgui_controls"
+
+	"stutil"
 }
 
 $Group "shaders"
@@ -65,6 +67,8 @@ $Group "everything"
 	// You probably don't want to override all shaders by default.
 	// This is just an example mainly! Pick and choose what you want from this project. :D
 	//"game_shader_generic_std"
+
+	"stutil"
 }
 
 $Group "dedicated"
@@ -72,5 +76,7 @@ $Group "dedicated"
 	"mathlib"
 	"server"
 	"tier1"
+
+	"stutil"
 }
 

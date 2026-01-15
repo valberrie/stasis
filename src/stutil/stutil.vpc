@@ -1,0 +1,29 @@
+$macro SRCDIR		".."
+
+$include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$PreprocessorDefinitions		"$BASE;STUTIL_STATIC_LIB"
+	}
+}
+
+$Project "stutil"
+{
+	$Folder	"Source Files"
+	{
+		$File	"keyvalues_json.cpp"
+	}
+
+	$Folder	"Header Files"
+	{
+		$File	"$SRCDIR\public\stutil\keyvalues_json.h"
+	}
+
+	$Folder "Link Libraries"
+	{
+	    $Lib    "tier1"
+	}
+}
