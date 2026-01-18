@@ -445,9 +445,9 @@ void DumpPortalTrace( pstack_t *pStack )
 
 void WritePortalTrace( const char *source )
 {
-	Vector	mid;
-	FILE	*linefile;
-	char	filename[1024];
+	Vector	mid{};
+	FILE	*linefile{};
+	char	filename[1024]{};
 
 	if ( !g_PortalTrace.m_list.Count() )
 	{

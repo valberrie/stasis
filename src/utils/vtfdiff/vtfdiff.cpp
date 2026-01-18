@@ -37,7 +37,7 @@ bool LoadFileIntoBuffer( const char *pFileName, CUtlBuffer &buf )
 		goto error;
 	}
 	
-	int nBytesRead = fread( buf.Base(), 1, statBuf.st_size, fp );
+	int nBytesRead = ( int )fread( buf.Base(), 1, statBuf.st_size, fp );
 	fclose( fp );
 
 	buf.SeekPut( CUtlBuffer::SEEK_HEAD, nBytesRead );

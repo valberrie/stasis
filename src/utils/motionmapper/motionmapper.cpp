@@ -243,10 +243,9 @@ void clip_rotations( Vector& rot )
 
 void Build_Reference( s_source_t *psource)
 {
-	int		i, parent;
-	Vector	angle;
+	Vector	angle{};
 
-	for (i = 0; i < psource->numbones; i++)
+	for (int i = 0; i < psource->numbones; i++)
 	{
 		matrix3x4_t m;
 		AngleMatrix( psource->rawanim[0][i].rot, m );
@@ -254,7 +253,7 @@ void Build_Reference( s_source_t *psource)
 		m[1][3] = psource->rawanim[0][i].pos[1];
 		m[2][3] = psource->rawanim[0][i].pos[2];
 
-		parent = psource->localBone[i].parent;
+		int parent = psource->localBone[i].parent;
 		if (parent == -1) 
 		{
 			// scale the done pos.

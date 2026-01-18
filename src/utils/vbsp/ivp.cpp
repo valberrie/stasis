@@ -57,7 +57,7 @@ CTextBuffer::~CTextBuffer( void )
 
 void CTextBuffer::WriteText( const char *pText )
 {
-	int len = strlen( pText );
+	int len = ( int )strlen( pText );
 	CopyData( pText, len );
 }
 

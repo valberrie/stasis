@@ -1545,7 +1545,7 @@ void CreateDirectLights (void)
 	directlight_t	*dl = NULL;
 	entity_t	    *e = NULL;
 	char	        *name;
-	Vector	        dest;
+	Vector	        dest{};
 
 	numdlights = 0;
 
@@ -2437,7 +2437,7 @@ static int FindOrAllocateLightstyleSamples( dface_t* f, facelight_t	*fl, int lig
 static void ComputeIlluminationPointAndNormalsSSE( lightinfo_t const& l, FourVectors const &pos, FourVectors const &norm, SSE_SampleInfo_t* pInfo, int numSamples )
 {
 
-	Vector v[4];
+	Vector v[4]{};
 
 	pInfo->m_Points = pos;
 	bool computeNormals = ( pInfo->m_NormalCount > 1 && ( pInfo->m_IsDispFace || !l.isflat ) );
@@ -3058,15 +3058,15 @@ static void InitSampleInfo( lightinfo_t const& l, int iThread, SSE_SampleInfo_t&
 
 void BuildFacelights (int iThread, int facenum)
 {
-	int	i, j;
+    int i{}, j{};
 
-	lightinfo_t	l;
-	dface_t *f;
-	facelight_t	*fl;
-	SSE_SampleInfo_t sampleInfo;
-	directlight_t *dl;
-	Vector spot;
-	Vector v[4], n[4];
+	lightinfo_t	l{};
+	dface_t *f{};
+	facelight_t	*fl{};
+	SSE_SampleInfo_t sampleInfo{};
+	directlight_t *dl{};
+	Vector spot{};
+    Vector v[4]{}, n[4]{};
 
 	if( g_bInterrupt )
 		return;
