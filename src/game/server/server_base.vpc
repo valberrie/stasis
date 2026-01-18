@@ -811,6 +811,11 @@ $Project
 			$File	"$SRCDIR\game\shared\usermessages.cpp"
 		}
 
+		$Folder "Stasis"
+		{
+			// $File	"$SRCDIR\game\shared\st\weapon_parse.cpp"
+			// $File	"$SRCDIR\game\shared\st\weapon_parse.h"
+		}
 	}
 
 	$Folder	"Header Files"
@@ -1046,5 +1051,7 @@ $Project
 
 		$ImpLibexternal steam_api	[!$WIN64]
 		$ImpLibexternal steam_api64	[$WIN64]
+
+		$Lib	stutil
 	}
 }

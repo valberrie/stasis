@@ -669,6 +669,11 @@ $Project
 			$File	"game_controls\IconPanel.cpp"
 		}
 
+		$Folder "Stasis"
+		{
+			//$File	"$SRCDIR\game\shared\st\weapon_parse.cpp"
+			//$File	"$SRCDIR\game\shared\st\weapon_parse.h"
+		}
 	}
 
 	$Folder	"MP3" [$WINDOWS||$POSIX]
@@ -1275,6 +1280,8 @@ $Project
 		$Lib   "libz" [$WINDOWS]
 
 		//$Libexternal	libz [$LINUXALL]
+
+		$Lib		stutil
  	}
 
 }
