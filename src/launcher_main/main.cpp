@@ -233,7 +233,30 @@ static bool GetGameInstallDir( const char *pRootDir, char *pszBuf, int nBufSize 
 	return true;
 }
 
+static bool GetGameInstallDirManual( const char *pRootDir, char *pszBuf, int nBufSize, int argc, char *const *const argv )
+{
+    // val - i have zero idea why we need to do this because we already zeroed the buffer. whatever
+    memset( pszBuf, 0, nBufSize );
 
+    bool bNextIsPath = false;
+    for ( int i = 0; i < argc; ++i )
+    {
+        if ( strstr( argv[i], "-path" ) )
+        {
+            bNextIsPath = true;
+        }
+        else if ( bNextIsPath )
+        {
+            size_t nPath = strlen( argv[i] );
+            assert( nBufSize >= nPath );
+            strncpy( pszBuf, argv[i], nPath );
+            return true;
+        }
+    }
+
+    MessageBox( 0, "Running with -nosteam requires a -path argument with an installation of Source SDK 2013 Multiplayer.", "Launcher Error", 0 );
+    return false;
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Return the directory where this .exe is running from
@@ -428,6 +451,61 @@ static void HandleRelaunching()
 #endif
 }
 
+static bool IsUsingSteam( int argc, char **argv )
+{
+    // val - hacky and dumb <3
+    static int result = -1;
+    if ( result == 0 || result == 1 )
+    {
+        return result;
+    }
+
+    for ( int i = 0; i < argc; ++i )
+    {
+        if ( strstr( argv[i], "-nosteam" ) )
+        {
+            result = 0;
+            return result;
+        }
+    }
+
+    result = 1;
+    return result;
+}
+
+// https://stackoverflow.com/questions/74999026/is-there-the-commandlinetoargva-function-in-windows-c-c-vs-2022
+static void GetCommandLineArgsUTF8( int *argc, char ***argv )
+{
+    wchar_t **wargv = CommandLineToArgvW( GetCommandLineW(), argc );
+    if ( !wargv )
+    {
+        *argc = 0;
+        *argv = NULL;
+        return;
+    }
+
+    int n = 0;
+    for ( int i = 0; i < *argc; i++ )
+        n += WideCharToMultiByte( CP_UTF8, 0, wargv[i], -1, NULL, 0, NULL, NULL ) + 1;
+
+    // Allocate the argv[] array + all the UTF-8 strings
+    *argv = static_cast< char ** >( malloc( ( *argc + 1 ) * sizeof( char * ) + n ) );
+    if ( !*argv )
+    {
+        *argc = 0;
+        return;
+    }
+
+    // Convert all wargv[] --> argv[]
+    char *arg = ( char * )&( ( *argv )[*argc + 1] );
+    for ( int i = 0; i < *argc; i++ )
+    {
+        ( *argv )[i] = arg;
+        arg += WideCharToMultiByte( CP_UTF8, 0, wargv[i], -1, arg, n, NULL, NULL ) + 1;
+    }
+    ( *argv )[*argc] = NULL;
+}
+
 int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 	HandleRelaunching();
@@ -449,10 +527,20 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	char* pRootDir = GetBaseDir( moduleName );
 	const char *pBinaryGameDir = pRootDir;
 	char szGameInstallDir[4096];
-	if ( !GetGameInstallDir( pRootDir, szGameInstallDir, 4096 ) )
-	{
-		return 1;
-	}
+
+	int argc = 0;
+	char **argv = nullptr;
+	GetCommandLineArgsUTF8( &argc, &argv );
+	if ( IsUsingSteam( argc, argv ) )
+    {
+        if ( !GetGameInstallDir( pRootDir, szGameInstallDir, 4096 ) )
+            return 1;
+    }
+    else
+    {
+        if ( !GetGameInstallDirManual( pRootDir, szGameInstallDir, 4096, argc, argv ) )
+            return 1;
+    }
 
 	pBinaryGameDir = szGameInstallDir;
 

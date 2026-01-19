@@ -714,7 +714,7 @@ FSReturnCode_t FileSystem_LoadSearchPaths( CFSSearchPathsInit &initInfo )
 
 			if ( !SteamApps() )
 			{
-				Error( "No SteamApps connection." );
+                Error( "No SteamApps connection. Please launch Steam or edit your gameinfo.txt to not mount content with AppIDs. (see docs/modding/steam/allowing-a-mod-to-run-without-steam)" );
 			}
 
 			const Source1AppidInfo_t *pKnownAppid = GetKnownAppidInfo( nAppId );
