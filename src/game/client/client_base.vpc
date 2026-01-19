@@ -501,7 +501,9 @@ $Project
 		$File	"$SRCDIR\game\shared\voice_status.cpp"
 		$File	"warp_overlay.cpp"
 		$File	"WaterLODMaterialProxy.cpp"
+
 		$File	"$SRCDIR\game\shared\weapon_parse.cpp"
+
 		$File	"weapon_selection.cpp"
 		$File	"weapons_resource.cpp"
 		$File	"WorldDimsProxy.cpp"
@@ -667,12 +669,6 @@ $Project
 			$File	"game_controls\teammenu.cpp"
 			$File	"game_controls\vguitextwindow.cpp"
 			$File	"game_controls\IconPanel.cpp"
-		}
-
-		$Folder "Stasis"
-		{
-			//$File	"$SRCDIR\game\shared\st\weapon_parse.cpp"
-			//$File	"$SRCDIR\game\shared\st\weapon_parse.h"
 		}
 	}
 

@@ -7,6 +7,7 @@ $Configuration
 	$Compiler
 	{
 		$PreprocessorDefinitions		"$BASE;STUTIL_STATIC_LIB"
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\thirdparty\json\include"
 	}
 }
 
@@ -14,12 +15,12 @@ $Project "stutil"
 {
 	$Folder	"Source Files"
 	{
-		$File	"keyvalues_json.cpp"
+		$File	"json.cpp"
 	}
 
 	$Folder	"Header Files"
 	{
-		$File	"$SRCDIR\public\stutil\keyvalues_json.h"
+		$File	"$SRCDIR\public\stutil\json.h"
 	}
 
 	$Folder "Link Libraries"

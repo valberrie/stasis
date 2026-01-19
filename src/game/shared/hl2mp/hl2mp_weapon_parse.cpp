@@ -9,18 +9,17 @@
 #include "hl2mp_weapon_parse.h"
 #include "ammodef.h"
 
+bool g_bUseJSONScripts = true;
+
 FileWeaponInfo_t* CreateWeaponInfo()
 {
 	return new CHL2MPSWeaponInfo;
 }
 
-
-
 CHL2MPSWeaponInfo::CHL2MPSWeaponInfo()
 {
 	m_iPlayerDamage = 0;
 }
-
 
 void CHL2MPSWeaponInfo::Parse( KeyValues *pKeyValuesData, const char *szWeaponName )
 {

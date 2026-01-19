@@ -676,8 +676,10 @@ $Project
 		$File	"WaterLODControl.cpp"
 		$File	"wcedit.cpp"
 		$File	"wcedit.h"
+		
 		$File	"$SRCDIR\game\shared\weapon_parse.cpp"
 		$File	"$SRCDIR\game\shared\weapon_parse.h"
+
 		$File	"$SRCDIR\game\shared\weapon_proficiency.cpp"
 		$File	"$SRCDIR\game\shared\weapon_proficiency.h"
 		$File	"weight_button.cpp"
@@ -809,12 +811,6 @@ $Project
 			$File	"te_spritespray.cpp"
 			$File	"te_worlddecal.cpp"
 			$File	"$SRCDIR\game\shared\usermessages.cpp"
-		}
-
-		$Folder "Stasis"
-		{
-			// $File	"$SRCDIR\game\shared\st\weapon_parse.cpp"
-			// $File	"$SRCDIR\game\shared\st\weapon_parse.h"
 		}
 	}
 

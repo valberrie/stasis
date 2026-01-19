@@ -59,7 +59,7 @@ void LoadHudTextures( CUtlDict< CHudTexture *, int >& list, const char *szFilena
 {
 	KeyValues *pTemp, *pTextureSection;
 
-	KeyValues *pKeyValuesData = ReadEncryptedKVFile( filesystem, szFilenameWithoutExtension, pICEKey );
+	KeyValues *pKeyValuesData = ReadEncryptedKVFile( filesystem, szFilenameWithoutExtension, pICEKey, false, false );
 	if ( pKeyValuesData )
 	{
 		CUtlVector<HudTextureFileRef> hudTextureFileRefs;

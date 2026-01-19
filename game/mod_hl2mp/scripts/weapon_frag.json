@@ -1,0 +1,56 @@
+{
+  "printname": "#HL2_Grenade",
+  "viewmodel": "models/weapons/v_grenade.mdl",
+  "playermodel": "models/weapons/w_grenade.mdl",
+  "anim_prefix": "Grenade",
+  "bucket": "4",
+  "bucket_position": "0",
+
+  "clip_size": "-1",
+  "clip2_size": "-1",
+  "default_clip": "1",
+  "default_clip2": "-1",
+
+  "primary_ammo": "grenade",
+  "secondary_ammo": "None",
+
+  "weight": "1",
+  "item_flags": "18",
+  "damage": "150",
+
+  "SoundData": {
+    "special1": "WeaponFrag.Roll",
+    "double_shot": "common/null.wav",
+    "single_shot": "common/null.wav"
+  },
+
+  "TextureData": {
+    "weapon": {
+      "font": "WeaponIcons",
+      "character": "k"
+    },
+    "weapon_s": {
+      "font": "WeaponIconsSelected",
+      "character": "k"
+    },
+    "weapon_small": {
+      "font": "WeaponIconsSmall",
+      "character": "k"
+    },
+    "ammo": {
+      "font": "WeaponIconsSmall",
+      "character": "v"
+    },
+    "crosshair": {
+      "font": "Crosshairs",
+      "character": "Q"
+    },
+    "autoaim": {
+      "file": "sprites/crosshairs",
+      "x": "48",
+      "y": "72",
+      "width": "24",
+      "height": "24"
+    }
+  }
+}
