@@ -66,6 +66,18 @@ public:
 	
 	const WeaponProficiencyInfo_t *GetProficiencyValues();
 
+#ifndef CLIENT_DLL
+    void FireNPCPrimaryAttack( CBaseCombatCharacter *pOperator, bool bUseWeaponAngles );
+    void FireNPCSecondaryAttack( CBaseCombatCharacter *pOperator, bool bUseWeaponAngles );
+    void Operator_ForceNPCFire( CBaseCombatCharacter *pOperator, bool bSecondary );
+    void Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
+
+    int CapabilitiesGet( void )
+    {
+        return bits_CAP_WEAPON_RANGE_ATTACK1;
+    }
+#endif
+
 private:
 	CWeaponAR2( const CWeaponAR2 & );
 
