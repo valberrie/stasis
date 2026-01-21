@@ -235,7 +235,7 @@ static bool GetGameInstallDir( const char *pRootDir, char *pszBuf, int nBufSize 
 
 static bool GetGameInstallDirManual( const char *pRootDir, char *pszBuf, int nBufSize, int argc, char *const *const argv )
 {
-    // val - i have zero idea why we need to do this because we already zeroed the buffer. whatever
+    // val: i have zero idea why we need to do this because we already zeroed the buffer. whatever
     memset( pszBuf, 0, nBufSize );
 
     bool bNextIsPath = false;
@@ -453,7 +453,7 @@ static void HandleRelaunching()
 
 static bool IsUsingSteam( int argc, char **argv )
 {
-    // val - hacky and dumb <3
+    // val: hacky and dumb <3
     static int result = -1;
     if ( result == 0 || result == 1 )
     {
