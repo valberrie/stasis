@@ -121,6 +121,7 @@ public:
 	void CheckRestartGame();
 	void RestartGame();
 
+
 	void OnNavMeshLoad( void );
 	
 #ifndef CLIENT_DLL
@@ -136,6 +137,7 @@ public:
 	void    CheckChatForReadySignal( CHL2MP_Player *pPlayer, const char *chatmsg );
 	const char *GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer );
 
+	void InitDefaultAIRelationships();
 #endif
 
 	bool IsOfficialMap( void );
