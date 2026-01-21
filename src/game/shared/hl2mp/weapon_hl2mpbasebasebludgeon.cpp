@@ -21,6 +21,8 @@
 	#include "ndebugoverlay.h"
 	#include "te_effect_dispatch.h"
 	#include "ilagcompensationmanager.h"
+
+	#include "basecombatcharacter.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -364,3 +366,12 @@ void CBaseHL2MPBludgeonWeapon::Swing( int bIsSecondary )
 	m_flNextPrimaryAttack = gpGlobals->curtime + GetFireRate();
 	m_flNextSecondaryAttack = gpGlobals->curtime + SequenceDuration();
 }
+
+#ifndef CLIENT_DLL
+
+int CBaseHL2MPBludgeonWeapon::CapabilitiesGet()
+{
+    return bits_CAP_WEAPON_MELEE_ATTACK1;
+}
+
+#endif 

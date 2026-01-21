@@ -55,6 +55,10 @@ public:
 
 	virtual bool	PlayFleshyHittySoundOnHit() const { return false; }
 
+#ifndef CLIENT_DLL
+	virtual int CapabilitiesGet( void );
+#endif
+
 protected:
 	virtual	void	ImpactEffect( trace_t &trace );
 
