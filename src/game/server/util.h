@@ -230,10 +230,17 @@ CBasePlayer* UTIL_GetLocalPlayer( void );
 // get the local player on a listen server
 CBasePlayer *UTIL_GetListenServerHost( void );
 
+// Get the closest player to another entity
+CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS = false );
+
+// Get the first available player on the server
+CBasePlayer *UTIL_GetAnyPlayer();
+
 // Convenience function so we don't have to make this check all over
 inline CBasePlayer *UTIL_GetLocalPlayerOrListenServerHost( void )
 {
-	if ( gpGlobals->maxClients > 1 )
+	// val: deprecated, UTIL_GetLocalPlayer has been made to have the same functionality.
+	/*if ( gpGlobals->maxClients > 1 )
 	{
 		if ( engine->IsDedicatedServer() )
 		{
@@ -241,7 +248,7 @@ inline CBasePlayer *UTIL_GetLocalPlayerOrListenServerHost( void )
 		}
 
 		return UTIL_GetListenServerHost();
-	}
+	}*/
 
 	return UTIL_GetLocalPlayer();
 }

@@ -591,7 +591,13 @@ CBasePlayer *UTIL_GetLocalPlayer( void )
 #endif
 		}
 
-		return NULL;
+		if ( engine->IsDedicatedServer() )
+        {
+            AssertMsg( false, "No way to find the correct player in a dedicated server without an entity to compare" );
+            return UTIL_GetAnyPlayer();
+		}
+
+		return UTIL_GetListenServerHost();
 	}
 
 	return UTIL_PlayerByIndex( 1 );
@@ -613,6 +619,57 @@ CBasePlayer *UTIL_GetListenServerHost( void )
 	return UTIL_PlayerByIndex( 1 );
 }
 
+// val: taken from VDC
+// https://developer.valvesoftware.com/wiki/GetLocalPlayer
+CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS )
+{
+	CBasePlayer *pClosestPlayer = nullptr;
+	float flClosestDistance = 999999.0f;
+
+	for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( !pPlayer )
+        {
+			continue;
+		}
+
+		float flDistance = ( pPlayer->GetAbsOrigin() - pEntity->GetAbsOrigin() ).LengthSqr();
+        if ( flDistance >= flClosestDistance )
+        {
+			continue;
+		}
+
+		if ( bRequireLOS )
+        {
+			// only brushes
+            if ( !pEntity->FVisible( pPlayer, MASK_SOLID_BRUSHONLY ) )
+            {
+				continue;
+			}
+		}
+
+		pClosestPlayer = pPlayer;
+        flClosestDistance = flDistance;
+	}
+
+	return pClosestPlayer;
+}
+
+CBasePlayer *UTIL_GetAnyPlayer()
+{
+    for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( pPlayer )
+        {
+			return pPlayer;
+		}
+	}
+
+	AssertMsg( false, "No player available!" );
+	return nullptr;
+}
 
 //--------------------------------------------------------------------------------------------------------------
 /**
