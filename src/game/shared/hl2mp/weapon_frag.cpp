@@ -87,12 +87,8 @@ private:
 
 	CWeaponFrag( const CWeaponFrag & );
 
-#ifndef CLIENT_DLL
 	DECLARE_ACTTABLE();
-#endif
 };
-
-#ifndef CLIENT_DLL
 
 acttable_t	CWeaponFrag::m_acttable[] = 
 {
@@ -108,8 +104,6 @@ acttable_t	CWeaponFrag::m_acttable[] =
 };
 
 IMPLEMENT_ACTTABLE(CWeaponFrag);
-
-#endif
 
 IMPLEMENT_NETWORKCLASS_ALIASED( WeaponFrag, DT_WeaponFrag )
 

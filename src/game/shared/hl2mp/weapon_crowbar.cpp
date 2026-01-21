@@ -45,8 +45,6 @@ END_PREDICTION_DATA()
 LINK_ENTITY_TO_CLASS( weapon_crowbar, CWeaponCrowbar );
 PRECACHE_WEAPON_REGISTER( weapon_crowbar );
 
-#ifndef CLIENT_DLL
-
 acttable_t	CWeaponCrowbar::m_acttable[] = 
 {
 	{ ACT_RANGE_ATTACK1,				ACT_RANGE_ATTACK_SLAM, true },
@@ -65,8 +63,6 @@ acttable_t	CWeaponCrowbar::m_acttable[] =
 };
 
 IMPLEMENT_ACTTABLE(CWeaponCrowbar);
-
-#endif
 
 //-----------------------------------------------------------------------------
 // Constructor

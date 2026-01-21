@@ -70,9 +70,9 @@ public:
 	void FireNPCPrimaryAttack( CBaseCombatCharacter *pOperator, Vector &vecShootOrigin, Vector &vecShootDir );
     void Operator_ForceNPCFire( CBaseCombatCharacter *pOperator, bool bSecondary );
     void Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatCharacter *pOperator );
+#endif
 
 	DECLARE_ACTTABLE();
-#endif
 
 protected:
 
@@ -94,7 +94,6 @@ END_PREDICTION_DATA()
 LINK_ENTITY_TO_CLASS( weapon_smg1, CWeaponSMG1 );
 PRECACHE_WEAPON_REGISTER(weapon_smg1);
 
-#ifndef CLIENT_DLL
 acttable_t	CWeaponSMG1::m_acttable[] = 
 {
 	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_SMG1,					false },
@@ -158,7 +157,6 @@ acttable_t	CWeaponSMG1::m_acttable[] =
 };
 
 IMPLEMENT_ACTTABLE(CWeaponSMG1);
-#endif
 
 //=========================================================
 CWeaponSMG1::CWeaponSMG1( )
