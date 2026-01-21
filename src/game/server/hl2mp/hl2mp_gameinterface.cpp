@@ -19,7 +19,22 @@
 
 void CServerGameClients::GetPlayerLimits( int& minplayers, int& maxplayers, int &defaultMaxPlayers ) const
 {
-	minplayers = 2;
+	minplayers = 1;
+
+    ConVarRef lnbd{ "cl_localnetworkbackdoor" };
+    if ( lnbd.GetBool() )
+    {
+        Warning( "cl_localnetworkbackdoor is enabled. You WILL crash if maxplayers is set to 1.\n" );
+	}
+
+	if ( false /*!steamapicontext->SteamApps()*/ )
+    {
+        Warning( "FIXME: SteamApps not connected. maxplayers above 1 will crash. Setting maxplayers to 1 and cl_localnetworkbackdoor to false.\n" );
+		maxplayers = 1;
+        lnbd.SetValue( false );
+		return;
+	}
+
 #ifdef PLATFORM_64BITS
 	maxplayers = MAX_PLAYERS;
 #else
