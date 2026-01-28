@@ -406,12 +406,12 @@ void CAI_PlayerAlly::GatherConditions( void )
 		SetCondition( COND_TALKER_CLIENTUNSEEN );
 	}
 
-	CBasePlayer *pLocalPlayer = AI_GetSinglePlayer();
+	CBasePlayer *pLocalPlayer = UTIL_GetNearestPlayer( this );
 
 	if ( !pLocalPlayer )
 	{
-		if ( AI_IsSinglePlayer() )
-			SetCondition( COND_TALKER_PLAYER_DEAD );
+		//if ( AI_IsSinglePlayer() )
+		SetCondition( COND_TALKER_PLAYER_DEAD );
 		return;
 	}
 
@@ -1002,10 +1002,12 @@ void CAI_PlayerAlly::StartTask( const Task_t *pTask )
 	{
 	case TASK_MOVE_AWAY_PATH:
 		{
-			if ( HasCondition( COND_PLAYER_PUSHING ) && AI_IsSinglePlayer() )
+            UTIL_WarnIncorrectPlayer();
+            CBasePlayer *pPlayer = UTIL_GetNearestPlayer( this );
+            if ( HasCondition( COND_PLAYER_PUSHING ) /* && AI_IsSinglePlayer() */ )
 			{
 				// @TODO (toml 10-22-04): cope with multiplayer push
-				GetMotor()->SetIdealYawToTarget( UTIL_GetLocalPlayer()->WorldSpaceCenter() );
+				GetMotor()->SetIdealYawToTarget( pPlayer->WorldSpaceCenter() );
 			}
 			BaseClass::StartTask( pTask );
 			break;
