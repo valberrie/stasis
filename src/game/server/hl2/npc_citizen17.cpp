@@ -548,9 +548,11 @@ void CNPC_Citizen::PostNPCInit()
 	}
 	else
 	{
-		if ( ( m_spawnflags & SF_CITIZEN_FOLLOW ) && AI_IsSinglePlayer() )
+		// val: follow the nearest player
+        UTIL_WarnIncorrectPlayer();
+		if ( ( m_spawnflags & SF_CITIZEN_FOLLOW ) /* && AI_IsSinglePlayer() */ )
 		{
-			m_FollowBehavior.SetFollowTarget( UTIL_GetLocalPlayer() );
+			m_FollowBehavior.SetFollowTarget( UTIL_GetNearestPlayer( this, true ) );
 			m_FollowBehavior.SetParameters( AIF_SIMPLE );
 		}
 	}
@@ -983,6 +985,7 @@ void CNPC_Citizen::GatherConditions()
 //-----------------------------------------------------------------------------
 void CNPC_Citizen::PredictPlayerPush()
 {
+	// TODO(val): mp
 	if ( !AI_IsSinglePlayer() )
 		return;
 
