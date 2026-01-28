@@ -147,10 +147,11 @@ bool CAI_LeadBehavior::IsNavigationUrgent( void )
 void CAI_LeadBehavior::LeadPlayer( const AI_LeadArgs_t &leadArgs, CAI_LeadBehaviorHandler *pSink )
 {
 #ifndef CSTRIKE_DLL
+    UTIL_WarnIncorrectPlayer();
 	CAI_PlayerAlly *pOuter = dynamic_cast<CAI_PlayerAlly*>(GetOuter());
-	if ( pOuter && AI_IsSinglePlayer() )
+    if ( pOuter /* && AI_IsSinglePlayer() */ )
 	{
-		pOuter->SetSpeechTarget( UTIL_GetLocalPlayer() );
+		pOuter->SetSpeechTarget( UTIL_GetNearestPlayer( pOuter, false ) );
 	}
 #endif
 

@@ -623,8 +623,8 @@ CBasePlayer *UTIL_GetListenServerHost( void )
 // https://developer.valvesoftware.com/wiki/GetLocalPlayer
 CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS )
 {
-	CBasePlayer *pClosestPlayer = nullptr;
-	float flClosestDistance = 999999.0f;
+	CBasePlayer *pNearestPlayer = nullptr;
+	float flNearestDistance = 999999.0f;
 
 	for ( int i = 1; i < gpGlobals->maxClients; ++i )
     {
@@ -635,7 +635,7 @@ CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS )
 		}
 
 		float flDistance = ( pPlayer->GetAbsOrigin() - pEntity->GetAbsOrigin() ).LengthSqr();
-        if ( flDistance >= flClosestDistance )
+        if ( flDistance >= flNearestDistance )
         {
 			continue;
 		}
@@ -649,11 +649,11 @@ CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS )
 			}
 		}
 
-		pClosestPlayer = pPlayer;
-        flClosestDistance = flDistance;
+		pNearestPlayer = pPlayer;
+        flNearestDistance = flDistance;
 	}
 
-	return pClosestPlayer;
+	return pNearestPlayer;
 }
 
 CBasePlayer *UTIL_GetAnyPlayer()
@@ -669,6 +669,118 @@ CBasePlayer *UTIL_GetAnyPlayer()
 
 	AssertMsg( false, "No player available!" );
 	return nullptr;
+}
+
+CBasePlayer *UTIL_GetFirstPlayerFiltered( std::function< bool( CBasePlayer * ) > pfnPredicate )
+{
+    for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( !pPlayer )
+        {
+            continue;
+        }
+
+        if ( pfnPredicate( pPlayer ) )
+        {
+            return pPlayer;
+        }
+    }
+
+    Warning( "UTIL_GetFirstPlayerFiltered: No player matched predicate..." );
+    return nullptr;
+}
+
+CBasePlayer *UTIL_GetNearestPlayerFiltered( CBaseEntity *pEntity, bool bRequireLOS, std::function< bool( CBasePlayer * ) > pfnPredicate )
+{
+    CBasePlayer *pNearestPlayer = nullptr;
+    float flNearestDistance = 999999.0f; 
+
+    for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( !pPlayer )
+        {
+            continue;
+        }
+
+		if ( !pfnPredicate( pPlayer ) )
+        {
+            continue;
+        }
+
+        float flDistance = ( pPlayer->GetAbsOrigin() - pEntity->GetAbsOrigin() ).LengthSqr();
+        if ( flDistance >= flNearestDistance )
+        {
+            continue;
+        }
+
+        if ( bRequireLOS )
+        {
+            // only brushes
+            if ( !pEntity->FVisible( pPlayer, MASK_SOLID_BRUSHONLY ) )
+            {
+                continue;
+            }
+        }
+
+        pNearestPlayer = pPlayer;
+        flNearestDistance = flDistance;
+    }
+
+	Warning( "UTIL_GetNearestPlayerFiltered: No player matched predicate..." );
+    return nullptr;
+}
+
+bool UTIL_ForEachPlayer( std::function < void( CBasePlayer * ) > pfnDo )
+{
+	bool bAny = false;
+    for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( !pPlayer )
+        {
+            continue;
+        }
+
+        bAny = true;
+        pfnDo( pPlayer );
+    }
+
+	if ( !bAny )
+    {
+        Warning( "UTIL_ForEachPlayer: No player available..." );
+    }
+
+    return bAny;
+}
+
+bool UTIL_ForEachPlayerFiltered( std::function< bool( CBasePlayer * ) > pfnPredicate, std::function< void( CBasePlayer * ) > pfnDo )
+{
+	bool bAny = false;
+    for ( int i = 1; i < gpGlobals->maxClients; ++i )
+    {
+        CBasePlayer *pPlayer = UTIL_PlayerByIndex( i );
+        if ( !pPlayer )
+        {
+			continue;
+		}
+
+		if ( !pfnPredicate( pPlayer ) )
+        {
+			continue;
+		}
+
+		bAny = true;
+        pfnDo( pPlayer );
+	}
+
+	if ( !bAny )
+    {
+		Warning( "UTIL_ForEachPlayerFiltered: No player matched predicate..." );
+	}
+
+	return bAny;
 }
 
 //--------------------------------------------------------------------------------------------------------------
