@@ -68,6 +68,7 @@ T *_CreateEntityTemplate( T *newEnt, const char *className )
 }
 
 #include "tier0/memdbgoff.h"
+#include <functional>
 
 CBaseEntity *CreateEntityByName( const char *className, int iForceEdictIndex );
 
@@ -235,6 +236,20 @@ CBasePlayer *UTIL_GetNearestPlayer( CBaseEntity *pEntity, bool bRequireLOS = fal
 
 // Get the first available player on the server
 CBasePlayer *UTIL_GetAnyPlayer();
+
+// Get the first available player matching a predicate
+CBasePlayer *UTIL_GetFirstPlayerFiltered( std::function< bool( CBasePlayer * ) > pfnPredicate );
+
+// Get the closest player to another entity matching a predicate
+CBasePlayer *UTIL_GetNearestPlayerFiltered( CBaseEntity *pEntity, bool bRequireLOS, std::function< bool( CBasePlayer * ) > pfnPredicate );
+
+// Call a function on each player
+bool UTIL_ForEachPlayer( std::function< void( CBasePlayer * ) > pfnDo );
+
+// Call a function on each player matching a predicate
+bool UTIL_ForEachPlayerFiltered( std::function< bool( CBasePlayer * ) > pfnPredicate, std::function< void( CBasePlayer * ) > pfnDo );
+
+#define UTIL_WarnIncorrectPlayer() Warning( "%s:%d: Unintended behaviour in multiplayer mode. The wrong player will likely be chosen.\n", __FILE__, __LINE__ )
 
 // Convenience function so we don't have to make this check all over
 inline CBasePlayer *UTIL_GetLocalPlayerOrListenServerHost( void )
